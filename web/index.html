@@ -5,23 +5,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Zynta Studio — Next-gen multi-agent powered agentic IDE built on Rust & React." />
-    <title>Zynta Studio</title>
+    <title>Zynta Studio | The Agentic IDE</title>
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='100%25' stop-color='%2322d3ee'/></linearGradient></defs><polygon points='9.5,1 22.5,1 31,9.5 31,22.5 22.5,31 9.5,31 1,22.5 1,9.5' fill='url(%23g)'/><text x='16' y='22' text-anchor='middle' font-family='Arial Black' font-size='16' font-weight='900' fill='white'>Z</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" />
     <style>
         :root {
-            --bg: #080810;
-            --card: #0e0e1c;
-            --card2: #12121f;
-            --border: #1e1e30;
-            --text: #f0f0f8;
-            --muted: #7a7a9a;
+            --bg: #050508;
+            --bg-elevated: #0c0c14;
+            --card: rgba(255, 255, 255, 0.03);
+            --card-hover: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --muted: #8888aa;
             --indigo: #6366f1;
             --violet: #8b5cf6;
             --cyan: #22d3ee;
+            --glow-indigo: rgba(99, 102, 241, 0.4);
+            --glow-cyan: rgba(34, 211, 238, 0.3);
         }
 
         *,
@@ -37,61 +40,87 @@
         }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Grid overlay */
-        body::before {
-            content: '';
+        /* Advanced Background Effects */
+        .bg-grid {
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Ambient glows */
-        .glow {
+        .orb {
             position: fixed;
             border-radius: 50%;
-            filter: blur(130px);
+            filter: blur(80px);
+            opacity: 0.6;
             pointer-events: none;
             z-index: 0;
+            animation: floatOrb 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glow-1 {
+        .orb-1 {
             width: 600px;
             height: 600px;
             top: -200px;
             left: -200px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.25), transparent 70%);
+            background: radial-gradient(circle, var(--indigo), transparent 60%);
         }
 
-        .glow-2 {
+        .orb-2 {
             width: 500px;
             height: 500px;
-            bottom: -150px;
-            right: -150px;
-            background: radial-gradient(circle, rgba(34, 211, 238, 0.18), transparent 70%);
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, var(--cyan), transparent 60%);
+            animation-delay: -10s;
         }
 
-        /* NAV */
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, var(--violet), transparent 60%);
+            opacity: 0.2;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(50px, 30px) scale(1.1);
+            }
+        }
+
+        /* NAVIGATION */
         nav {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
+            padding: 20px 48px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 18px 48px;
-            background: rgba(8, 8, 16, 0.8);
+            align-items: center;
+            background: rgba(5, 5, 8, 0.7);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
@@ -101,27 +130,25 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
+            color: white;
         }
 
         .nav-logo svg {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
+            filter: drop-shadow(0 0 12px var(--indigo));
         }
 
-        .nav-logo-text {
-            font-family: 'Orbitron', sans-serif;
+        .nav-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
             font-size: 18px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, #fff 0%, #a5f3fc 50%, #c7d2fe 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: -0.5px;
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 40px;
             list-style: none;
         }
 
@@ -130,242 +157,240 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            letter-spacing: 1px;
-            transition: color .2s;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: var(--text);
+            color: white;
         }
 
-        .nav-cta {
-            background: linear-gradient(135deg, var(--indigo), var(--violet));
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            padding: 10px 24px;
-            border-radius: 10px;
-            font-family: 'Space Grotesk', sans-serif;
+        .nav-btn {
+            background: white;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
             font-size: 13px;
             font-weight: 600;
-            letter-spacing: 1px;
-            transition: all .3s;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.45);
+        .nav-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
         }
 
-        /* HERO */
+        /* HERO SECTION */
         .hero {
             position: relative;
             z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 140px 24px 100px;
+            padding: 160px 24px 100px;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(99, 102, 241, 0.12);
-            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.2);
             border-radius: 100px;
             padding: 6px 16px;
             font-size: 12px;
             font-weight: 600;
-            letter-spacing: 2px;
-            color: #a5b4fc;
+            letter-spacing: 1px;
+            color: var(--cyan);
             margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        .hero-badge span {
+        .hero-badge::before {
+            content: '';
             width: 6px;
             height: 6px;
+            background: var(--cyan);
             border-radius: 50%;
-            background: #6366f1;
-            box-shadow: 0 0 8px #6366f1;
+            box-shadow: 0 0 10px var(--cyan);
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: .4
-            }
-        }
-
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(42px, 7vw, 88px);
-            font-weight: 900;
-            letter-spacing: 6px;
-            line-height: 1.05;
-            background: linear-gradient(135deg, #fff 0%, #a5f3fc 50%, #c7d2fe 100%);
+        .hero-title {
+            font-size: clamp(48px, 10vw, 100px);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #fff 50%, #aaa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
         }
 
-        .hero-sub {
-            font-size: clamp(16px, 2vw, 20px);
+        .hero-subtitle {
+            font-size: clamp(18px, 2.5vw, 22px);
             color: var(--muted);
-            max-width: 680px;
-            margin: 0 auto 48px;
-            line-height: 1.7;
+            max-width: 600px;
+            margin-bottom: 48px;
             font-weight: 400;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
-        .hero-btns {
+        .hero-subtitle strong {
+            color: white;
+            font-weight: 600;
+        }
+
+        .hero-actions {
             display: flex;
             gap: 16px;
-            justify-content: center;
             flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
-        .btn-hero-primary {
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
             background: linear-gradient(135deg, var(--indigo), var(--violet));
-            color: #fff;
-            padding: 16px 36px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: all .3s;
-            box-shadow: 0 4px 24px rgba(99, 102, 241, 0.35);
+            color: white;
+            box-shadow: 0 10px 30px -10px var(--glow-indigo);
         }
 
-        .btn-hero-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 36px rgba(99, 102, 241, 0.5);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px -10px var(--glow-indigo);
         }
 
-        .btn-hero-secondary {
-            background: transparent;
-            color: var(--text);
+        .btn-ghost {
+            background: var(--card);
+            color: white;
             border: 1px solid var(--border);
-            padding: 16px 36px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: all .3s;
+            backdrop-filter: blur(10px);
         }
 
-        .btn-hero-secondary:hover {
-            border-color: var(--cyan);
-            background: rgba(34, 211, 238, 0.06);
+        .btn-ghost:hover {
+            background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* LOGO HERO ICON */
-        .hero-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 48px;
-            animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 40px rgba(99, 102, 241, 0.5));
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-12px);
-            }
-        }
-
-        /* STATS */
-        .stats {
+        /* Hero Visual Element */
+        .hero-visual {
+            margin-top: 80px;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--bg-elevated), rgba(20, 20, 30, 0.8));
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow:
+                0 50px 100px -20px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
             position: relative;
-            z-index: 1;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.5s both;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
-            padding: 60px 24px;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
         }
 
-        .stat {
-            text-align: center;
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
         }
 
-        .stat-num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 40px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 0%, #a5f3fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-label {
+        .visual-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
             color: var(--muted);
-            font-size: 13px;
-            letter-spacing: 2px;
-            margin-top: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            text-align: left;
+            max-width: 80%;
         }
 
-        /* SECTION WRAPPER */
+        .visual-code .kw {
+            color: var(--violet);
+        }
+
+        .visual-code .fn {
+            color: var(--cyan);
+        }
+
+        .visual-code .str {
+            color: #a5f3fc;
+        }
+
+        /* SECTION STYLES */
         section {
             position: relative;
             z-index: 1;
-            padding: 100px 24px;
+            padding: 120px 24px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
         .section-tag {
             display: inline-block;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--indigo);
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 5px 14px;
-            border-radius: 100px;
-            margin-bottom: 20px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
         }
 
         .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(28px, 4vw, 44px);
-            font-weight: 900;
-            letter-spacing: 2px;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1px;
             margin-bottom: 16px;
-            color: #fff;
+            background: linear-gradient(135deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .section-sub {
+        .section-desc {
+            font-size: 18px;
             color: var(--muted);
-            font-size: 17px;
-            max-width: 560px;
-            line-height: 1.7;
-            margin-bottom: 60px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* FEATURE GRID */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 24px;
         }
 
@@ -373,397 +398,360 @@
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 36px;
-            transition: all .4s cubic-bezier(.4, 0, .2, 1);
+            padding: 32px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .feature-card::before {
+        .feature-card::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             opacity: 0;
-            transition: opacity .4s;
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
+            transition: opacity 0.4s;
         }
 
         .feature-card:hover {
-            border-color: rgba(99, 102, 241, 0.35);
-            transform: translateY(-6px);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3), 0 0 60px rgba(99, 102, 241, 0.08);
+            background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
         }
 
         .feature-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 20px;
+            border: 1px solid var(--border);
         }
 
         .feature-card h3 {
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .feature-card p {
-            color: var(--muted);
             font-size: 14px;
+            color: var(--muted);
             line-height: 1.7;
         }
 
-        /* ARCHITECTURE PIPELINE */
-        .pipeline {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 40px;
+        /* ARCHITECTURE FLOW */
+        .arch-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
         }
 
-        .pipeline-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
+        .arch-step {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 16px;
-            padding: 28px;
-            transition: all .3s;
+            padding: 24px;
+            position: relative;
+            transition: all 0.3s;
         }
 
-        .pipeline-step:hover {
-            border-color: rgba(99, 102, 241, 0.3);
-            background: var(--card2);
+        .arch-step:hover {
+            background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
-        .pipeline-num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 1px;
+        .arch-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
             color: var(--indigo);
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            margin-bottom: 12px;
+            display: block;
         }
 
-        .pipeline-content h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
+        .arch-step h4 {
+            font-size: 15px;
+            margin-bottom: 8px;
         }
 
-        .pipeline-content p {
-            color: var(--muted);
+        .arch-step p {
             font-size: 13px;
+            color: var(--muted);
             line-height: 1.6;
         }
 
-        /* TECH STACK */
-        .tech-stack {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 40px;
-        }
-
-        .tech-tag {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 10px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .5px;
-            transition: all .3s;
-        }
-
-        .tech-tag:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-        }
-
-        .tech-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        /* DOWNLOAD CARD */
-        .download-card {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
-            border: 1px solid rgba(99, 102, 241, 0.25);
-            border-radius: 24px;
-            padding: 64px;
+        /* DOWNLOAD SECTION */
+        .download-container {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 32px;
+            padding: 80px 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .download-card h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: 2px;
+        .download-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15), transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .download-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-title {
+            font-size: 36px;
+            font-weight: 800;
             margin-bottom: 16px;
         }
 
-        .download-card p {
+        .download-desc {
             color: var(--muted);
-            font-size: 16px;
             margin-bottom: 40px;
-        }
-
-        .download-btns {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .btn-dl {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 30px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-decoration: none;
-            transition: all .3s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-dl-primary {
-            background: linear-gradient(135deg, var(--indigo), var(--violet));
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-dl-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-dl-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-dl-secondary:hover {
-            border-color: var(--cyan);
+            font-size: 16px;
         }
 
         /* FOOTER */
         footer {
             position: relative;
             z-index: 1;
-            text-align: center;
             padding: 60px 24px;
             border-top: 1px solid var(--border);
+            text-align: center;
         }
 
-        .footer-logo {
-            margin-bottom: 24px;
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
         }
 
         .footer-links {
             display: flex;
-            justify-content: center;
             gap: 32px;
-            flex-wrap: wrap;
-            margin-bottom: 32px;
             list-style: none;
         }
 
         .footer-links a {
             color: var(--muted);
             text-decoration: none;
-            font-size: 13px;
-            transition: color .2s;
+            font-size: 14px;
+            transition: color 0.2s;
         }
 
         .footer-links a:hover {
-            color: var(--text);
+            color: white;
         }
 
         .footer-copy {
-            color: var(--muted);
+            color: rgba(255, 255, 255, 0.3);
             font-size: 12px;
-            letter-spacing: 1px;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
             nav {
-                padding: 16px 24px;
+                padding: 16px 20px;
             }
 
             .nav-links {
                 display: none;
             }
 
-            .stats {
-                gap: 30px;
+            .hero {
+                padding: 120px 20px 80px;
             }
 
-            .download-card {
-                padding: 40px 24px;
+            .hero-title {
+                letter-spacing: -1px;
+            }
+
+            .visual-code {
+                font-size: 12px;
+                padding: 16px;
+            }
+
+            section {
+                padding: 80px 20px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="glow glow-1"></div>
-    <div class="glow glow-2"></div>
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
-    <!-- NAV -->
+    <!-- NAVBAR -->
     <nav>
         <a href="#" class="nav-logo">
             <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#6366f1" />
-                        <stop offset="50%" stop-color="#8b5cf6" />
                         <stop offset="100%" stop-color="#22d3ee" />
                     </linearGradient>
                 </defs>
-                <polygon points="19,2 45,2 62,19 62,45 45,62 19,62 2,45 2,19" fill="url(#ng)" />
-                <text x="32" y="44" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="28"
-                    font-weight="900" fill="white">Z</text>
+                <polygon points="19,2 45,2 62,19 62,45 45,62 19,62 2,45 2,19" fill="url(#navGrad)" />
+                <text x="32" y="44" text-anchor="middle" font-family="Arial Black" font-size="28" font-weight="900"
+                    fill="white">Z</text>
             </svg>
-            <span class="nav-logo-text">ZYNTA</span>
+            <span class="nav-brand">zynta.studio</span>
         </a>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#stack">Stack</a></li>
             <li><a href="#download">Download</a></li>
         </ul>
-        <a href="https://github.com/webspoilt/god-level-ide" target="_blank" class="nav-cta">View on GitHub</a>
+        <a href="https://github.com/webspoilt/god-level-ide" target="_blank" class="nav-btn">
+            View on GitHub
+        </a>
     </nav>
 
     <!-- HERO -->
-    <div class="hero">
-        <div class="hero-badge"><span></span>BETA • OPEN SOURCE</div>
+    <section class="hero">
+        <div class="hero-badge">BETA RELEASE • OPEN SOURCE</div>
 
-        <svg class="hero-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#6366f1" />
-                    <stop offset="50%" stop-color="#8b5cf6" />
-                    <stop offset="100%" stop-color="#22d3ee" />
-                </linearGradient>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                    <feMerge>
-                        <feMergeNode in="coloredBlur" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
-            </defs>
-            <polygon points="36,4 84,4 116,36 116,84 84,116 36,116 4,84 4,36" fill="url(#hg)" filter="url(#glow)" />
-            <text x="60" y="82" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="58"
-                font-weight="900" fill="white">Z</text>
-        </svg>
+        <h1 class="hero-title">Zynta Studio</h1>
 
-        <h1>ZYNTA<br />STUDIO</h1>
-        <p class="hero-sub">
-            The next-generation multi-agent powered Intelligent Development Environment.
-            It doesn't just help you code — it <strong>codes alongside you</strong>.
+        <p class="hero-subtitle">
+            The next-generation multi-agent IDE. Powered by Rust and React, it doesn't just help you code — it
+            <strong>codes alongside you</strong>.
         </p>
-        <div class="hero-btns">
-            <a href="#download" class="btn-hero-primary">⬇ Download .exe</a>
-            <a href="https://github.com/webspoilt/god-level-ide" target="_blank" class="btn-hero-secondary">★ GitHub
-                Repo</a>
-        </div>
-    </div>
 
-    <!-- STATS -->
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-num">7</div>
-            <div class="stat-label">PHASES</div>
+        <div class="hero-actions">
+            <a href="#download" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7,10 12,15 17,10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download for Windows
+            </a>
+            <a href="https://github.com/webspoilt/god-level-ide" target="_blank" class="btn btn-ghost">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+                View Source
+            </a>
         </div>
-        <div class="stat">
-            <div class="stat-num">Rust</div>
-            <div class="stat-label">BACKEND</div>
+
+        <div class="hero-visual">
+            <div class="visual-code">
+                <div><span class="kw">use</span> zynta::agents::<span class="fn">Orchestrator</span>;</div>
+                <div style="margin-top:8px;"><span class="kw">let</span> result = Orchestrator::<span
+                        class="fn">new</span>()</div>
+                <div style="padding-left:20px;">.<span class="fn">spawn</span>(<span
+                        class="str">"frontend_agent"</span>)</div>
+                <div style="padding-left:20px;">.<span class="fn">execute</span>(<span class="str">"Build the
+                        UI"</span>)</div>
+                <div style="padding-left:20px;">.<span class="kw">await</span>?;</div>
+            </div>
         </div>
-        <div class="stat">
-            <div class="stat-num">MCP</div>
-            <div class="stat-label">PROTOCOL</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">GPL-3</div>
-            <div class="stat-label">LICENSE</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">∞</div>
-            <div class="stat-label">AGENTS</div>
-        </div>
-    </div>
+    </section>
 
     <!-- FEATURES -->
     <section id="features">
-        <div class="section-tag">CAPABILITIES</div>
-        <h2 class="section-title">Built Different.</h2>
-        <p class="section-sub">Every layer of Zynta Studio is engineered for the agentic AI era.</p>
+        <div class="section-header">
+            <span class="section-tag">Capabilities</span>
+            <h2 class="section-title">Built Different.</h2>
+            <p class="section-desc">Every layer of Zynta Studio is engineered for the agentic AI era.</p>
+        </div>
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon" style="background:rgba(99,102,241,0.15)">💾</div>
+                <div class="feature-icon">💾</div>
                 <h3>Transactional VFS</h3>
                 <p>Atomic file operations with idempotency verification. Built-in transaction managers with
                     time-traveling, snapshot-based Undo/Redo.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background:rgba(139,92,246,0.15)">📡</div>
+                <div class="feature-icon">📡</div>
                 <h3>MCP Infrastructure</h3>
                 <p>Enterprise-grade observability via Model Context Protocol. Continuous telemetry, execution latency,
                     and AI hallucination rate tracking.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background:rgba(34,211,238,0.12)">🤖</div>
+                <div class="feature-icon">🤖</div>
                 <h3>SEMAP Orchestration</h3>
                 <p>Software Engineering Multi-Agent Protocol. Actor-model architecture mapping specialized agents to
                     Frontend, Backend, and DevOps roles.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background:rgba(99,102,241,0.15)">⚖️</div>
+                <div class="feature-icon">⚖️</div>
                 <h3>Agent Exchange (AEX)</h3>
                 <p>Combinatorial Auctioning Engine. Distributes workloads to agents based on token capacity, context
                     alignment, and operational cost.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background:rgba(139,92,246,0.15)">🎨</div>
+                <div class="feature-icon">🎨</div>
                 <h3>Generative Visual UI</h3>
                 <p>Real-time dynamic execution graphs via VisualLogicTree. Watch agentic pathways form as code is
                     generated live.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon" style="background:rgba(34,211,238,0.12)">🛡️</div>
+                <div class="feature-icon">🛡️</div>
                 <h3>Red-Teaming Engine</h3>
                 <p>Adversarial RedTeamAgents launch continuous jailbreaks countered by BlueTeam live-patching.
                     Kubernetes self-healing CI/CD.</p>
@@ -772,129 +760,96 @@
     </section>
 
     <!-- ARCHITECTURE -->
-    <section id="architecture" style="border-top:1px solid var(--border); padding-top:100px;">
-        <div class="section-tag">ARCHITECTURE</div>
-        <h2 class="section-title">7-Phase Blueprint</h2>
-        <p class="section-sub">Synthesized from Kimi, Minimax, GLM-5, and Deepseek's best architectural designs.</p>
-
-        <div class="pipeline">
-            <div class="pipeline-step">
-                <div class="pipeline-num">01</div>
-                <div class="pipeline-content">
-                    <h4>Transactional Virtual File System</h4>
-                    <p>Atomic operations, idempotency, time-travel snapshots, and Undo/Redo with full transaction
-                        isolation.</p>
-                </div>
-            </div>
-            <div class="pipeline-step">
-                <div class="pipeline-num">02</div>
-                <div class="pipeline-content">
-                    <h4>MCP Telemetry Infrastructure</h4>
-                    <p>OAuth2 auth, Prometheus metrics exporter, KPI collector tracking task success, latency, and
-                        hallucination rates.</p>
-                </div>
-            </div>
-            <div class="pipeline-step">
-                <div class="pipeline-num">03</div>
-                <div class="pipeline-content">
-                    <h4>SEMAP Multi-Agent Orchestration</h4>
-                    <p>Actor-model agents with shared knowledge bases, debate-based consensus, and protocol-level
-                        message contracts.</p>
-                </div>
-            </div>
-            <div class="pipeline-step">
-                <div class="pipeline-num">04</div>
-                <div class="pipeline-content">
-                    <h4>Agent Exchange Auctioning</h4>
-                    <p>Combinatorial auction engine matching tasks to agents by capacity, cost, and context fit through
-                        bidding.</p>
-                </div>
-            </div>
-            <div class="pipeline-step">
-                <div class="pipeline-num">05</div>
-                <div class="pipeline-content">
-                    <h4>Generative UI Renderer</h4>
-                    <p>Visual logic tree rendering in React + Tauri. Real-time agent pathway visualization via Tauri IPC
-                        commands.</p>
-                </div>
-            </div>
-            <div class="pipeline-step">
-                <div class="pipeline-num">06</div>
-                <div class="pipeline-content">
-                    <h4>Red / Blue Team Security</h4>
-                    <p>Adversarial attacker agents generate exploits. Defender agents respond with live patches from a
-                        shared knowledge base.</p>
-                </div>
-            </div>
-            <div class="pipeline-step">
-                <div class="pipeline-num">07</div>
-                <div class="pipeline-content">
-                    <h4>Kubernetes CI/CD Self-Healing</h4>
-                    <p>HPA, ingress, canary deployments, and namespace isolation. Application auto-scales and self-heals
-                        under load.</p>
-                </div>
-            </div>
+    <section id="architecture">
+        <div class="section-header">
+            <span class="section-tag">Blueprint</span>
+            <h2 class="section-title">7-Phase Architecture</h2>
+            <p class="section-desc">Synthesized from Kimi, Minimax, GLM-5, and Deepseek's best architectural designs.
+            </p>
         </div>
-    </section>
 
-    <!-- TECH STACK -->
-    <section id="stack" style="border-top:1px solid var(--border); padding-top:100px;">
-        <div class="section-tag">TECH STACK</div>
-        <h2 class="section-title">Built on the Best.</h2>
-        <p class="section-sub">Every technology chosen for performance, safety, and future-proof design.</p>
-        <div class="tech-stack">
-            <div class="tech-tag"><span class="tech-dot" style="background:#f74c00"></span>Rust</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#61dafb"></span>React</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#6366f1"></span>Tauri v2</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#f7df1e"></span>TypeScript</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#646cff"></span>Vite</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#326ce5"></span>Kubernetes</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#e6522c"></span>Prometheus</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#22d3ee"></span>MCP Protocol</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#8b5cf6"></span>Tokio Async</div>
-            <div class="tech-tag"><span class="tech-dot" style="background:#f97316"></span>Serde / JSON</div>
+        <div class="arch-flow">
+            <div class="arch-step">
+                <span class="arch-num">PHASE 01</span>
+                <h4>Transactional VFS</h4>
+                <p>Atomic operations, idempotency, time-travel snapshots, and Undo/Redo.</p>
+            </div>
+            <div class="arch-step">
+                <span class="arch-num">PHASE 02</span>
+                <h4>MCP Telemetry</h4>
+                <p>OAuth2 auth, Prometheus metrics, KPI collector tracking task success.</p>
+            </div>
+            <div class="arch-step">
+                <span class="arch-num">PHASE 03</span>
+                <h4>SEMAP Orchestration</h4>
+                <p>Actor-model agents with shared knowledge bases and debate consensus.</p>
+            </div>
+            <div class="arch-step">
+                <span class="arch-num">PHASE 04</span>
+                <h4>Agent Exchange</h4>
+                <p>Combinatorial auction engine matching tasks to agents by capacity.</p>
+            </div>
+            <div class="arch-step">
+                <span class="arch-num">PHASE 05</span>
+                <h4>Generative UI</h4>
+                <p>Visual logic tree rendering in React + Tauri via IPC commands.</p>
+            </div>
+            <div class="arch-step">
+                <span class="arch-num">PHASE 06</span>
+                <h4>Red / Blue Team</h4>
+                <p>Adversarial attacker agents vs defender agents with live patches.</p>
+            </div>
+            <div class="arch-step">
+                <span class="arch-num">PHASE 07</span>
+                <h4>CI/CD Self-Healing</h4>
+                <p>HPA, ingress, canary deployments, and namespace isolation.</p>
+            </div>
         </div>
     </section>
 
     <!-- DOWNLOAD -->
-    <section id="download" style="border-top:1px solid var(--border); padding-top:100px;">
-        <div class="download-card">
-            <h2>Get Zynta Studio</h2>
-            <p>Download the native Windows executable or clone the source to build your own.</p>
-            <div class="download-btns">
-                <a href="https://github.com/webspoilt/god-level-ide/releases" target="_blank"
-                    class="btn-dl btn-dl-primary">
-                    ⬇ Download for Windows
-                </a>
-                <a href="https://github.com/webspoilt/god-level-ide" target="_blank" class="btn-dl btn-dl-secondary">
-                    ★ View Source on GitHub
-                </a>
+    <section id="download">
+        <div class="download-container">
+            <div class="download-content">
+                <h2 class="download-title">Get Zynta Studio</h2>
+                <p class="download-desc">Download the native Windows executable or clone the source to build your own.
+                </p>
+
+                <div class="hero-actions" style="justify-content: center;">
+                    <a href="https://github.com/webspoilt/god-level-ide/releases" target="_blank"
+                        class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="7,10 12,15 17,10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg>
+                        Download .exe
+                    </a>
+                    <a href="https://github.com/webspoilt/god-level-ide" target="_blank" class="btn btn-ghost">
+                        Clone Repository
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-logo">
-            <svg width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#6366f1" />
-                        <stop offset="100%" stop-color="#22d3ee" />
-                    </linearGradient>
-                </defs>
-                <polygon points="19,2 45,2 62,19 62,45 45,62 19,62 2,45 2,19" fill="url(#fg)" opacity="0.8" />
-                <text x="32" y="44" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="28"
-                    font-weight="900" fill="white">Z</text>
+        <div class="footer-content">
+            <svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.5;">
+                <polygon points="19,2 45,2 62,19 62,45 45,62 19,62 2,45 2,19" fill="#6366f1" />
+                <text x="32" y="44" text-anchor="middle" font-family="Arial Black" font-size="28" font-weight="900"
+                    fill="white">Z</text>
             </svg>
+            <ul class="footer-links">
+                <li><a href="https://github.com/webspoilt/god-level-ide" target="_blank">GitHub</a></li>
+                <li><a href="https://x.com/Gh0st_118" target="_blank">Twitter</a></li>
+                <li><a href="https://www.linkedin.com/in/webspoilt/" target="_blank">LinkedIn</a></li>
+                <li><a href="mailto:heyzerodayhere@gmail.com">Email</a></li>
+            </ul>
+            <p class="footer-copy">© 2026 Zynta Studio · GPL-3.0 License · Built by Zeroday</p>
         </div>
-        <ul class="footer-links">
-            <li><a href="https://github.com/webspoilt/god-level-ide" target="_blank">GitHub</a></li>
-            <li><a href="https://x.com/Gh0st_118" target="_blank">X / Twitter</a></li>
-            <li><a href="https://www.linkedin.com/in/webspoilt/" target="_blank">LinkedIn</a></li>
-            <li><a href="mailto:heyzerodayhere@gmail.com">Email</a></li>
-        </ul>
-        <p class="footer-copy">© 2026 Zynta Studio · GPL-3.0 License · Built by Zeroday</p>
     </footer>
 </body>
 
