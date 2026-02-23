@@ -1,90 +1,123 @@
-# God-Level IDE 🚀
-### Crafted by Zeroday
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,100:4338ca&height=300&section=header&text=God-Level%20IDE&fontSize=90&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=The%20Next-Gen%20Agentic%20Development%20Experience&descAlignY=51&descAlign=62" alt="God-Level IDE Header" />
 
-Welcome to the **God-Level IDE**, a groundbreaking, multi-agent powered Intelligent Development Environment. This project integrates cutting-edge concepts from generative AI, decentralized agent orchestration, and atomic virtual file systems to create an IDE that doesn't just help you code—it codes alongside you.
+  <h2>🌌 Crafted with ❤️ by <a href="https://x.com/Gh0st_118" target="_blank">Zeroday</a></h2>
+  <p>
+    <em>A groundbreaking, multi-agent powered Intelligent Development Environment. It doesn't just help you code—it <b>codes alongside you</b>.</em>
+  </p>
 
-Based on a unified blueprint synthesizing the best architectural designs from Kimi, Minimax, GLM-5, and Deepseek.
+  <p>
+    <a href="https://github.com/webspoilt/god-level-ide/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg?style=for-the-badge&logo=gnu" alt="GPLv3 License"></a>
+    <a href="https://x.com/Gh0st_118"><img src="https://img.shields.io/badge/Follow%20X-%40Gh0st__118-black?style=for-the-badge&logo=x" alt="X/Twitter"></a>
+    <a href="https://www.linkedin.com/in/webspoilt/"><img src="https://img.shields.io/badge/Connect-LinkedIn-0077b5?style=for-the-badge&logo=linkedin" alt="LinkedIn"></a>
+    <img src="https://img.shields.io/badge/Status-Beta-success?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/Built_With-Rust_&_React-orange?style=for-the-badge&logo=rust" alt="Tech">
+  </p>
+</div>
 
-## 🌟 Core Architecture
+<br />
 
-The architecture is divided into seven core phases:
+> **God-Level IDE** integrates cutting-edge concepts from generative AI, decentralized agent orchestration, and atomic virtual file systems. Based on a unified blueprint synthesizing the best architectural designs from **Kimi, Minimax, GLM-5, and Deepseek**.
 
-1. **Phase 1: Transactional VFS (Virtual File System)**
-   - Atomic file operations with an Idempotency verification layer.
-   - Built-in transaction managers with snapshot-based Undo logic.
+---
 
-2. **Phase 2: MCP Infrastructure & Observability**
-   - Seamless integration with the Model Context Protocol (MCP).
-   - Enterprise-grade telemetry, tracking tool calls, execution latency, and simulated hallucination rates.
+<div align="center">
+  <h2>🌟 Core Architecture & Capabilities</h2>
+</div>
 
-3. **Phase 3: SEMAP (Software Engineering Multi-Agent Protocol)**
-   - Actor-model based Agent architecture (Frontend, Backend, DevOps, QA, RedTeam, BlueTeam).
-   - Structured contracts and debate protocols for reaching consensus.
+<table>
+  <tr>
+    <td width="50%">
+      <h3>💾 Phase 1: Transactional VFS</h3>
+      <p>Atomic file operations with <b>Idempotency verification</b> tracking. Features built-in <b>Transaction Managers</b> with time-traveling, snapshot-based Undo/Redo logic.</p>
+    </td>
+    <td width="50%">
+      <h3>📡 Phase 2: MCP Infrastructure</h3>
+      <p>Enterprise-grade observability hooked into the <b>Model Context Protocol (MCP)</b>. Tracks continuous <b>Telemetry</b>, execution latency, and simulated AI hallucination rates.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h3>🤖 Phase 3: SEMAP Orchestration</h3>
+      <p><b>Software Engineering Multi-Agent Protocol</b>. Actor-model architecture mapping agents to specialized roles (Frontend, Backend, DevOps). Includes Debate protocols for consensus.</p>
+    </td>
+    <td>
+      <h3>⚖️ Phase 4: Agent Exchange (AEX)</h3>
+      <p>Cutting-edge <b>Combinatorial Auctioning Engine</b>. Distributes workloads to agents based on token capacity, context alignment, and operational cost.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h3>🎨 Phase 5: Generative Visual UI</h3>
+      <p>Powered by Tauri & React. Renders real-time, dynamic execution graphs (<code>VisualLogicTree</code>) mapping the agentic pathways as code is formed.</p>
+    </td>
+    <td>
+      <h3>🛡️ Phase 6 & 7: Red-Teaming & CI/CD</h3>
+      <p>Adversarial <b>RedTeamAgents</b> launch continuous jailbreaks countered by <b>BlueTeam</b> live-patching. Fully containerized with <b>Kubernetes Self-Healing</b> deployments.</p>
+    </td>
+  </tr>
+</table>
 
-4. **Phase 4: Agent Exchange (AEX) & Workload Distribution**
-   - Combinatorial auctioning engine distributing tasks dynamically among specialized agents based on capability, cost, and capacity.
-   - Linguistic negotiation logic for resolving resource locks.
+---
 
-5. **Phase 5: Generative Visual Fusion & UI Engineering**
-   - Modern React/Vite web interface connected via Tauri.
-   - Dynamic real-time execution graphs (`VisualLogicTree`).
-   - Hooks to invoke vision models for dynamic layout generation.
+<div align="center">
+  <h2>📦 Packaging into a `.exe` (Windows Executable)</h2>
+</div>
 
-6. **Phase 6: Continuous Red-Teaming (Security)**
-   - Fully automated adversarial `RedTeamAgent` running jailbreaks and vulnerability scans.
-   - `BlueTeamAgent` acting as a firewall, drafting live system patches.
+We use **Tauri** to bundle this incredibly complex application into a single, highly performant native executable. Turn your IDE into a standalone `.exe` you can share or deploy anywhere!
 
-7. **Phase 7: Self-Healing CI/CD & Kubernetes Deployment**
-   - Containerized frontend and backend workflows in a multi-stage Dockerfile.
-   - Pre-configured Kubernetes manifests (HPA, Canary Deployments, PVCs) for hyper-scaling compute nodes.
-
-## 🛠️ Tech Stack
-
-- **Backend:** Rust, Tauri, Tokio, DashMap
-- **Frontend:** React 18, Vite, TypeScript
-- **Infrastructure:** Docker, Kubernetes
-
-## 🚀 Getting Started
-
-To run this application locally, you will need Node.js and the Rust toolchain installed.
-
-### 1. Install Dependencies
 ```bash
+# 1. Install Dependencies
 npm install
-```
 
-### 2. Run in Development Mode
-This will start both the React frontend and the Tauri backend in watch mode.
-```bash
-npm run tauri dev
-```
-
-### 3. Build for Production (.exe on Windows, .app on macOS)
-```bash
+# 2. Build the production application
 npm run tauri build
 ```
-The compiled executable will be located in the `src-tauri/target/release/bundle` directory.
+<p align="center">
+  <i>✨ That's it! Your shiny new executable will be waiting for you inside: ✨<br><code>src-tauri/target/release/bundle/msi/</code> and <code>src-tauri/target/release/</code></i>
+</p>
 
-## 🤝 Contributing
+---
 
-We welcome contributions from the community! This project acts as a blueprint for the future of agentic IDEs. Please check out the **Issues** tab on GitHub to find tasks that need help, ranging from wiring up real LLM APIs to fleshing out the Virtual File System. 
+<div align="center">
+  <h2>🤝 Open Source Contribution</h2>
+</div>
 
-Because we believe the future of AI tooling should remain open to everyone, we licensed this project under **GPL-3.0**. You are fully encouraged to make your own custom IDE and fork this repository, as long as you open-source your derivative work under the same terms!
+We believe the future of AI paradigms belongs to the Open Web. That's why this base model operates under the **GPL-3.0 License**.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+**You cannot steal this model and hide the code.** However, **you ARE fully encouraged** to make your own custom IDE and fork this base—as long as you keep your derivative work Open Source!
 
-## 🛡️ License
+Check the **Issues** tab to start contributing to this awesome framework. We need help:
+* Wiring up real LLM endpoints (OpenAI, Anthropic).
+* Perfecting the Natural Language Debate consensus models.
+* Bolstering the Virtual File System persistency.
 
-Distributed under the **GPL-3.0 License**. See `LICENSE` for more information. This ensures nobody can steal this base model and close its source code. Free code for everyone.
+### 📝 How to Contribute
+1. **Fork** the repository ✨
+2. Create your Feature Branch: `git checkout -b feature/MatrixMode`
+3. Commit your changes: `git commit -m 'feat: Add Matrix Mode'`
+4. Push to the branch: `git push origin feature/MatrixMode`
+5. Open a **Pull Request** 🚀
 
-## 📬 Contact & Author
+---
 
-**Zeroday**
-- X (Twitter): [@Gh0st_118](https://x.com/Gh0st_118)
-- LinkedIn: [webspoilt](https://www.linkedin.com/in/webspoilt/)
-- Email: heyzerodayhere@gmail.com
+<div align="center">
+  <h2>📬 Let's Connect (The Author)</h2>
+  
+  <p>Developed with passion by <b>Zeroday</b>. I love building tools that break boundaries.</p>
 
+  <a href="https://x.com/Gh0st_118">
+    <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=x&logoColor=white" />
+  </a>
+  <a href="https://www.linkedin.com/in/webspoilt/">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+  <a href="mailto:heyzerodayhere@gmail.com">
+    <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+  </a>
+</div>
+
+<br/>
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:000000,100:4338ca&height=100&section=footer" width="100%" />
+</div>
