@@ -1,4 +1,5 @@
 # God-Level IDE 🚀
+### Crafted by Zeroday
 
 Welcome to the **God-Level IDE**, a groundbreaking, multi-agent powered Intelligent Development Environment. This project integrates cutting-edge concepts from generative AI, decentralized agent orchestration, and atomic virtual file systems to create an IDE that doesn't just help you code—it codes alongside you.
 
@@ -79,4 +80,11 @@ Because we believe the future of AI tooling should remain open to everyone, we l
 ## 🛡️ License
 
 Distributed under the **GPL-3.0 License**. See `LICENSE` for more information. This ensures nobody can steal this base model and close its source code. Free code for everyone.
+
+## 📬 Contact & Author
+
+**Zeroday**
+- X (Twitter): [@Gh0st_118](https://x.com/Gh0st_118)
+- LinkedIn: [webspoilt](https://www.linkedin.com/in/webspoilt/)
+- Email: heyzerodayhere@gmail.com
 
