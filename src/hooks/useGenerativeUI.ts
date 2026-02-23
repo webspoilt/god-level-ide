@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/tauri';
+import { invoke } from '@tauri-apps/api/core';
 
 export const useGenerativeUI = () => {
     const generateAsset = async (prompt: string, type: 'svg' | 'theme' | 'icon'): Promise<string> => {

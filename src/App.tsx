@@ -1,4 +1,3 @@
-import React from 'react';
 import { VisualLogicTree } from './components/VisualLogicTree';
 import { useGenerativeUI } from './hooks/useGenerativeUI';
 

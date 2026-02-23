@@ -59,14 +59,14 @@ impl KpiCollector {
             let latency = metrics.start.elapsed();
             histogram!("execution_latency_seconds", latency.as_secs_f64());
             if success {
-                counter!("task_success_total").increment(1);
+                counter!("task_success_total", 1);
             } else {
-                counter!("task_failure_total").increment(1);
+                counter!("task_failure_total", 1);
             }
             gauge!("turns_to_completion", metrics.turns as f64);
             gauge!("tool_calls_per_task", metrics.tool_calls as f64);
             if metrics.hallucinated {
-                counter!("tool_hallucination_total").increment(1);
+                counter!("tool_hallucination_total", 1);
             }
         }
     }

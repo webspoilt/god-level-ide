@@ -1,0 +1,140 @@
+   Compiling god-level-ide v0.1.0 (E:\IDEAS\agentic ide\god-level-ide\src-tauri)
+error: expected `,`
+  --> src\mcp\telemetry.rs:62:17
+   |
+62 |                 counter!("task_success_total").increment(1);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the macro `counter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: expected `,`
+  --> src\mcp\telemetry.rs:64:17
+   |
+64 |                 counter!("task_failure_total").increment(1);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the macro `counter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: expected `,`
+  --> src\mcp\telemetry.rs:69:17
+   |
+69 |                 counter!("tool_hallucination_total").increment(1);
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: this error originates in the macro `counter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: unused import: `engine::*`
+ --> src\vfs\mod.rs:5:9
+  |
+5 | pub use engine::*;
+  |         ^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `mcp::mcp_call_tool`
+ --> src\commands\mod.rs:6:9
+  |
+6 | pub use mcp::mcp_call_tool;
+  |         ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `ui::generate_ui_asset`
+ --> src\commands\mod.rs:7:9
+  |
+7 | pub use ui::generate_ui_asset;
+  |         ^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `health` and `ready`
+ --> src\commands\mod.rs:8:18
+  |
+8 | pub use health::{health, ready};
+  |                  ^^^^^^  ^^^^^
+
+warning: unused import: `tree::get_execution_tree`
+ --> src\commands\mod.rs:9:9
+  |
+9 | pub use tree::get_execution_tree;
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `server::McpServer`
+ --> src\mcp\mod.rs:6:9
+  |
+6 | pub use server::McpServer;
+  |         ^^^^^^^^^^^^^^^^^
+
+warning: unused import: `client::McpClient`
+ --> src\mcp\mod.rs:7:9
+  |
+7 | pub use client::McpClient;
+  |         ^^^^^^^^^^^^^^^^^
+
+warning: unused import: `auth::OAuth2Validator`
+ --> src\mcp\mod.rs:8:9
+  |
+8 | pub use auth::OAuth2Validator;
+  |         ^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `KpiCollector` and `TelemetryEngine`
+ --> src\mcp\mod.rs:9:21
+  |
+9 | pub use telemetry::{TelemetryEngine, KpiCollector};
+  |                     ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^
+
+warning: unused imports: `AgentState`, `AgentType`, and `Agent`
+ --> src\agents\mod.rs:6:16
+  |
+6 | pub use core::{Agent, AgentId, AgentType, AgentState};
+  |                ^^^^^           ^^^^^^^^^  ^^^^^^^^^^
+
+warning: unused import: `memory::SharedKnowledgeBase`
+ --> src\agents\mod.rs:7:9
+  |
+7 | pub use memory::SharedKnowledgeBase;
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `Contract`, `MessageType`, and `Message`
+ --> src\agents\mod.rs:8:20
+  |
+8 | pub use protocol::{Message, MessageType, Contract};
+  |                    ^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^
+
+warning: variable does not need to be mutable
+  --> src\mcp\client.rs:25:13
+   |
+25 |         let mut request = self.http_client.post(&url)
+   |             ----^^^^^^^
+   |             |
+   |             help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+error[E0308]: mismatched types
+  --> src\mcp\auth.rs:20:43
+   |
+20 |         validation.required_spec_claims = vec!["exp".to_string()];
+   |         -------------------------------   ^^^^^^^^^^^^^^^^^^^^^^^ expected `HashSet<String>`, found `Vec<String>`
+   |         |
+   |         expected due to the type of this binding
+   |
+   = note: expected struct `HashSet<std::string::String>`
+              found struct `Vec<std::string::String>`
+   = note: this error originates in the macro `vec` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0382]: borrow of moved value: `task`
+  --> src\aex\auction.rs:40:26
+   |
+38 |     pub fn register_task(&mut self, task: Task) {
+   |                                     ---- move occurs because `task` has type `Task`, which does not implement the `Copy` trait
+39 |         self.tasks.insert(task.id.clone(), task);
+   |                                            ---- value moved here
+40 |         self.bids.insert(task.id.clone(), Vec::new());
+   |                          ^^^^^^^ value borrowed here after move
+   |
+help: consider cloning the value if the performance cost is acceptable
+   |
+39 |         self.tasks.insert(task.id.clone(), task.clone());
+   |                                                ++++++++
+
+Some errors have detailed explanations: E0308, E0382.
+For more information about an error, try `rustc --explain E0308`.
+warning: `god-level-ide` (bin "god-level-ide") generated 13 warnings
+error: could not compile `god-level-ide` (bin "god-level-ide") due to 5 previous errors; 13 warnings emitted

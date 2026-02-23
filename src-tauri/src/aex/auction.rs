@@ -36,8 +36,9 @@ impl Auctioneer {
     }
 
     pub fn register_task(&mut self, task: Task) {
-        self.tasks.insert(task.id.clone(), task);
-        self.bids.insert(task.id.clone(), Vec::new());
+        let task_id = task.id.clone();
+        self.tasks.insert(task_id.clone(), task);
+        self.bids.insert(task_id, Vec::new());
     }
 
     pub fn submit_bid(&mut self, bid: Bid) {

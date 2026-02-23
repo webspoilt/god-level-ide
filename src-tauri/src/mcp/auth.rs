@@ -1,5 +1,6 @@
 use jsonwebtoken::{decode, DecodingKey, Validation, Algorithm};
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
@@ -17,7 +18,7 @@ impl OAuth2Validator {
     pub fn new(secret: &[u8]) -> Self {
         let mut validation = Validation::new(Algorithm::HS256);
         validation.validate_exp = true;
-        validation.required_spec_claims = vec!["exp".to_string()];
+        validation.required_spec_claims = HashSet::from(["exp".to_string()]);
         Self {
             decoding_key: DecodingKey::from_secret(secret),
             validation,
