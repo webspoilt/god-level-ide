@@ -66,7 +66,9 @@ The compiled executable will be located in the `src-tauri/target/release/bundle`
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! This project is highly experimental and acts as a blueprint for the future of agentic IDEs. Please check out the **Issues** tab on GitHub to find tasks that need help, ranging from wiring up real LLM APIs to fleshing out the Virtual File System.
+We welcome contributions from the community! This project acts as a blueprint for the future of agentic IDEs. Please check out the **Issues** tab on GitHub to find tasks that need help, ranging from wiring up real LLM APIs to fleshing out the Virtual File System. 
+
+Because we believe the future of AI tooling should remain open to everyone, we licensed this project under **GPL-3.0**. You are fully encouraged to make your own custom IDE and fork this repository, as long as you open-source your derivative work under the same terms!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -76,4 +78,5 @@ We welcome contributions from the community! This project is highly experimental
 
 ## 🛡️ License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the **GPL-3.0 License**. See `LICENSE` for more information. This ensures nobody can steal this base model and close its source code. Free code for everyone.
+
