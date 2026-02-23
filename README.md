@@ -9,17 +9,42 @@
   </p>
 
   <p>
+    <!-- Github Badges -->
+    <a href="https://github.com/webspoilt/god-level-ide/stargazers"><img src="https://img.shields.io/github/stars/webspoilt/god-level-ide?style=for-the-badge&color=yellow" alt="Stars"></a>
+    <a href="https://github.com/webspoilt/god-level-ide/network/members"><img src="https://img.shields.io/github/forks/webspoilt/god-level-ide?style=for-the-badge&color=blue" alt="Forks"></a>
+    <a href="https://github.com/webspoilt/god-level-ide/issues"><img src="https://img.shields.io/github/issues/webspoilt/god-level-ide?style=for-the-badge&color=red" alt="Issues"></a>
+    <a href="https://github.com/webspoilt/god-level-ide/pulls"><img src="https://img.shields.io/github/issues-pr/webspoilt/god-level-ide?style=for-the-badge&color=green" alt="Pull Requests"></a>
+    <br/>
+    <!-- Tech & Status Badges -->
     <a href="https://github.com/webspoilt/god-level-ide/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-GPL_3.0-blue.svg?style=for-the-badge&logo=gnu" alt="GPLv3 License"></a>
-    <a href="https://x.com/Gh0st_118"><img src="https://img.shields.io/badge/Follow%20X-%40Gh0st__118-black?style=for-the-badge&logo=x" alt="X/Twitter"></a>
-    <a href="https://www.linkedin.com/in/webspoilt/"><img src="https://img.shields.io/badge/Connect-LinkedIn-0077b5?style=for-the-badge&logo=linkedin" alt="LinkedIn"></a>
     <img src="https://img.shields.io/badge/Status-Beta-success?style=for-the-badge" alt="Status">
     <img src="https://img.shields.io/badge/Built_With-Rust_&_React-orange?style=for-the-badge&logo=rust" alt="Tech">
+    <br/>
+    <!-- Social Badges -->
+    <a href="https://x.com/Gh0st_118"><img src="https://img.shields.io/badge/Follow%20X-%40Gh0st__118-black?style=for-the-badge&logo=x" alt="X/Twitter"></a>
+    <a href="https://www.linkedin.com/in/webspoilt/"><img src="https://img.shields.io/badge/Connect-LinkedIn-0077b5?style=for-the-badge&logo=linkedin" alt="LinkedIn"></a>
   </p>
 </div>
 
 <br />
 
 > **Zynta Studio** integrates cutting-edge concepts from generative AI, decentralized agent orchestration, and atomic virtual file systems. Based on a unified blueprint synthesizing the best architectural designs from **Kimi, Minimax, GLM-5, and Deepseek**.
+
+---
+
+## 🤔 The Problem
+Traditional IDEs are passive tools. You write code, you debug, you search for solutions online. Even with AI copilots, the burden of architecture and complex logic remains on the developer. Context windows are limited, and AI often breaks existing code.
+
+## 💡 The Solution
+**Zynta Studio** is an active participant in your development process. It uses a **Software Engineering Multi-Agent Protocol (SEMAP)** where specialized agents (Frontend, Backend, DevOps) collaborate, debate, and write code entirely locally. 
+
+---
+
+## 📸 See It In Action
+*(Replace this placeholder with an awesome GIF or video showing Zynta Studio auto-generating code!)*
+<div align="center">
+  <img src="https://via.placeholder.com/800x450.png?text=Showcase+GIF+or+Demo+Video+Here" alt="Zynta Studio Demo">
+</div>
 
 ---
 
@@ -63,16 +88,37 @@
 ---
 
 <div align="center">
-  <h2>📦 Packaging into a `.exe` (Windows Executable)</h2>
+  <h2>🚀 Quick Start & Installation</h2>
 </div>
+
+Get Zynta Studio running locally on your machine.
+
+**Prerequisites:** 
+- Node.js installed.
+- Rust toolchain installed (for native bindings).
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/webspoilt/god-level-ide.git
+cd god-level-ide
+```
+
+**2. Install Dependencies**
+```bash
+npm install
+```
+
+**3. Run the Development Server**
+```bash
+npm run tauri dev
+```
+
+### 📦 Packaging into a `.exe` (Windows Executable)
 
 We use **Tauri** to bundle this incredibly complex application into a single, highly performant native executable. Turn your IDE into a standalone `.exe` you can share or deploy anywhere!
 
 ```bash
-# 1. Install Dependencies
-npm install
-
-# 2. Build the production application
+# Build the production application
 npm run tauri build
 ```
 <p align="center">
@@ -95,6 +141,8 @@ Check the **Issues** tab to start contributing to this awesome framework. We nee
 * Bolstering the Virtual File System persistency.
 
 ### 📝 How to Contribute
+We welcome all contributions, from bug fixes to complete new features! Look for issues tagged `"good first issue"`.
+
 1. **Fork** the repository ✨
 2. Create your Feature Branch: `git checkout -b feature/AmazingFeature`
 3. Commit your changes: `git commit -m 'feat: Add AmazingFeature'`
