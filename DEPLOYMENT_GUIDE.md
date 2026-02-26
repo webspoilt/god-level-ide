@@ -62,7 +62,7 @@ When you are ready to distribute or permanently install Zynta Studio, you can bu
 3. **Locate your Executable**
    Once compilation is finished (usually takes 3-5 minutes on a modern CPU), your brand-new IDE executable will be waiting for you inside:
    ```text
-   src-tauri/target/release/bundle/nsis/zynta-studio_0.1.0_x64-setup.exe
+   src-tauri/target/release/bundle/nsis/zynta-studio_5.0.0_x64-setup.exe
    ```
 
 You can now share this installer or run it to formally install Zynta Studio on your Windows machine!

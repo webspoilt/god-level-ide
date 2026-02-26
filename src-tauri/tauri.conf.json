@@ -1,6 +1,6 @@
 {
     "productName": "ZyntaStudio",
-    "version": "0.1.0",
+    "version": "5.0.0",
     "identifier": "com.zyntastudio.dev",
     "build": {
         "beforeDevCommand": "npm run dev",
