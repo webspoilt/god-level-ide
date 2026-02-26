@@ -1,9 +1,10 @@
-import { Terminal, Activity, Cpu, AlertTriangle, Check, X } from 'lucide-react';
+import { Terminal, Activity, Cpu, AlertTriangle, Check, X, Smartphone } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export function AgentTerminal() {
     const [logs, setLogs] = useState<string[]>([]);
     const [showListenerPrompt, setShowListenerPrompt] = useState(false);
+    const [activeTab, setActiveTab] = useState<'execution' | 'logcat'>('execution');
 
     useEffect(() => {
         // Mock streaming logs
@@ -47,13 +48,30 @@ export function AgentTerminal() {
         <div className="ide-panel" style={{ gridColumn: '2', borderTop: '1px solid var(--border-color)', background: '#0a0a0f', position: 'relative' }}>
             {/* Terminal Header */}
             <div style={{ display: 'flex', padding: '8px 16px', borderBottom: '1px solid var(--border-color)', fontSize: '12px', gap: '20px', color: 'var(--text-muted)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-main)', borderBottom: '2px solid var(--accent)', paddingBottom: '6px', marginBottom: '-9px' }}>
+                <div
+                    onClick={() => setActiveTab('execution')}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer',
+                        color: activeTab === 'execution' ? 'var(--text-main)' : 'var(--text-muted)',
+                        borderBottom: activeTab === 'execution' ? '2px solid var(--accent)' : '2px solid transparent',
+                        paddingBottom: '6px', marginBottom: '-9px'
+                    }}>
                     <Terminal size={14} /> Execution Logs
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                <div
+                    onClick={() => setActiveTab('logcat')}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer',
+                        color: activeTab === 'logcat' ? '#10b981' : 'var(--text-muted)',
+                        borderBottom: activeTab === 'logcat' ? '2px solid #10b981' : '2px solid transparent',
+                        paddingBottom: '6px', marginBottom: '-9px'
+                    }}>
+                    <Smartphone size={14} /> Logcat / ADB Stream
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', borderBottom: '2px solid transparent', paddingBottom: '6px', marginBottom: '-9px' }}>
                     <Activity size={14} /> Telemetry
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', borderBottom: '2px solid transparent', paddingBottom: '6px', marginBottom: '-9px' }}>
                     <Cpu size={14} /> Agents (1 Active)
                 </div>
                 {/* Shadow Agents Echo Chamber Status */}
@@ -69,7 +87,7 @@ export function AgentTerminal() {
 
             {/* Terminal Body */}
             <div style={{ flex: 1, padding: '12px 16px', fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', overflowY: 'auto' }}>
-                {logs.map((log, i) => {
+                {activeTab === 'execution' && logs.map((log, i) => {
                     let color = '#a1a1aa';
                     if (log.includes('[SYSTEM]')) color = '#38bdf8';
                     if (log.includes('[AGENT_')) color = '#a78bfa';
@@ -92,10 +110,23 @@ export function AgentTerminal() {
                     );
                 })}
                 {/* 11 original logs + 6 auto-fix logs = 17 total */}
-                {logs.length === 17 && (
+                {activeTab === 'execution' && logs.length === 17 && (
                     <div style={{ marginTop: '8px', display: 'flex', gap: '8px' }}>
                         <span style={{ color: '#10b981' }}>❯</span>
                         <span style={{ color: 'white', animation: 'blink 1s infinite' }}>_</span>
+                    </div>
+                )}
+                {activeTab === 'logcat' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', opacity: 0.8 }}>
+                        <div style={{ color: '#64748b' }}>12-14 10:22:15.123  1024  2048 I SystemServer: Entered the Android system server!</div>
+                        <div style={{ color: '#64748b' }}>12-14 10:22:15.456  1024  2048 D ActivityManager: Start proc com.zyntastudio.dev for activity</div>
+                        <div style={{ color: '#38bdf8' }}>12-14 10:22:16.789  4096  4096 V AndroidRuntime: Calling main entry com.zyntastudio.dev.MainActivity</div>
+                        <div style={{ color: '#fbbf24' }}>12-14 10:22:17.001  4096  4096 W Choreographer: Skipped 45 frames!  The application may be doing too much work on its main thread.</div>
+                        <div style={{ color: '#10b981' }}>12-14 10:22:17.555  4096  4096 I ZyntaMobileRunner: React Native / Compose bridge successfully bound.</div>
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                            <span style={{ color: '#10b981' }}>❯</span>
+                            <span style={{ color: 'white', animation: 'blink 1s infinite' }}>_</span>
+                        </div>
                     </div>
                 )}
             </div>
