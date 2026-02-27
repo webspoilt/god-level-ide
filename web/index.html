@@ -307,6 +307,21 @@
             -webkit-text-fill-color: transparent;
             animation: fadeInUp 0.8s ease-out 0.2s both;
             text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .cursor {
+            font-weight: 200;
+            color: var(--cyan);
+            -webkit-text-fill-color: var(--cyan);
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
         }
 
         .hero-subtitle {
@@ -837,7 +852,7 @@
     <section class="hero">
         <div class="hero-badge">v4.0.0 HYBRID HIVE AI RELEASE • OPEN SOURCE</div>
 
-        <h1 class="hero-title">Zynta Studio</h1>
+        <h1 class="hero-title"><span id="typewriter"></span><span class="cursor">|</span></h1>
 
         <p class="hero-subtitle">
             The sovereign AI development environment. Powered by Rust and React, with blockchain provenance,
@@ -1115,23 +1130,63 @@
 
     <!-- JAVASCRIPT FOR INTERACTIVITY -->
     <script>
-        // 1. Scroll Reveal Animation
-        const reveals = document.querySelectorAll('.reveal');
+        // Typewriter Effect
+        const words = ["ZYNTA STUDIO", "GOD-TIER IDE", "BLACK PROJECT AI"];
+        let i = 0;
+        let timer;
+        const typewriterEl = document.getElementById("typewriter");
 
-        const revealOnScroll = new IntersectionObserver((entries, observer) => {
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function () {
+                if (word.length > 0) {
+                    typewriterEl.innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000); // Wait before deleting
+                    return false;
+                };
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function () {
+                if (word.length > 0) {
+                    word.pop();
+                    typewriterEl.innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    };
+                    setTimeout(typingEffect, 500); // Wait before typing generic
+                    return false;
+                };
+                timer = setTimeout(loopDeleting, 50);
+            };
+            loopDeleting();
+        }
+
+        // Initialize Typewriter
+        typingEffect();
+
+
+        // Reveal on scroll
+        const observeElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        reveals.forEach(reveal => {
-            revealOnScroll.observe(reveal);
-        });
+        observeElements.forEach(el => observer.observe(el));
 
-        // 2. Card Mouse Follow Glow Effect
+        // Card Mouse Follow Glow Effect
         const cards = document.querySelectorAll('.feature-card');
 
         cards.forEach(card => {

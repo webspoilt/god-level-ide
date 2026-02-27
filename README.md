@@ -62,14 +62,17 @@ Traditional IDEs are passive tools. Even with AI copilots, the burden of archite
 ---
 
 <div align="center">
-  <h2>🔥 What's New in v5.0 — Sovereign AI Release</h2>
+  <h2>🔥 What's New in v4 — Hybrid Hive AI Release</h2>
 </div>
 
-### ⚡ Dark Glassmorphism UI
-The entire interface has been **completely redesigned** with a premium 2026 aesthetic:
-- **Animated nebula background** with shifting radial gradients
-- **Frosted glass panels** — `backdrop-filter: blur(20px)` on every surface
-- **Agent glow trails** — neon accent scanning lines being analyzed by AI
+### Release Notes (v4.0.0)
+- **God-Tier Physics & Math Engine:** Live LaTeX math parsing, Dimensional Analysis linting, and Trig-Waveform Visualizers directly in the Monaco gutter.
+- **Apex Security Sandbox:** Built-in Polymorphic AST Obfuscator, Automated Threat Modeler, and Ephemeral microVM Sandboxing for untrusted code execution.
+- **Black Project AI:** zk-Compiler Bridge to write zk-SNARK constraints via TypeScript, and a Reinforcement Learning Synthesizer that mutates and benchmarks your bytecode via PPO.
+- **Code Provenance Blockchain:** Cryptographically tracks the origin of every line (human `[USER-AUTH]` vs. agent `[ZYNTA-GEN]`).
+- **Neural Time Travel:** 1024-step history ring-buffer. Slide backwards in time to replay state mutations.
+- **Midnight Obsidian UI:** Complete dark-mode overhaul with animated nebula backgrounds and magnetic agent UI panels.
+- **Gamified "Flow State":** Earn developer streaks, unlock focus modes, and hit daily anti-bug quotas.
 - **Glass buttons** with hover lift, gradient accents, and spring physics
 - **Status dot pulses** — live heartbeat indicators for agents and systems
 
